@@ -1,4 +1,4 @@
-https://www.acmicpc.net/problem/14501
+문제: https://www.acmicpc.net/problem/14501
 
 #include <iostream>
 #define max_int 16
