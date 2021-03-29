@@ -1,0 +1,68 @@
+#include <iostream>
+#include <cstring>
+#include <string>
+#include <vector>
+#include <typeinfo>
+#include <stack>
+#include <stdlib.h>
+using namespace std;
+
+int n; 
+string str;
+int map[64][64];
+int sum;
+stack<string> stk;
+stack<string> stk2;
+
+void func(int x, int y, int len){
+    int num;
+    sum = 0;
+
+    stk.push("(");
+
+    /* 해당 배열 내 모든 값을 일단 합한다. */
+    for(int i=x; i<len; i++){
+        for(int j=y; j<len; j++){
+            sum+=map[i][j];
+        }
+    }
+    //cout << sum << endl;
+
+    /* 모두 더한 값이 0 이거나 길이의 제곱과 같은 값이면 */
+    if(sum==0||sum==len*len){
+        if(!sum) num = 0;
+        else num = 1;
+        stk.pop();
+        stk.push(to_string(num));
+        stk.push(")");
+        return;
+    }else{ /* 그렇지 않으면 다음 회차 나누기를 실행 */
+        func(x,y,len/2);
+        func(x+len/2,y,len/2);
+        func(x,y+len/2,len/2);
+        func(x+len/2,y+len/2,len/2);
+    }
+}
+
+int main(){
+    int val;
+    cin >> n;
+    for(int i=0; i<n; i++){
+        cin >> str;
+        for(int j=0; j<n; j++){
+            map[i][j] = str[j] - '0'; /* 형변환 */
+            //cout << map[i][j];
+        }
+    }
+    func(0,0,n);
+    for(int i=0; i<stk.size(); i++){
+        cout << stk.top();
+        stk.pop();
+    }
+    return 0;
+}
+
+// 11110000
+// 11110000
+// 00011100
+// 00011100
