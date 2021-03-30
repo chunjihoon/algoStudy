@@ -18,7 +18,11 @@ void func(int x, int y, int len){
     int num;
     sum = 0;
 
-    stk.push("(");
+    /* 더이상 나눌 수 없는 길이일 때 */
+    if(len==1){
+        stk.push(map[x][y]);
+        return;
+    }
 
     /* 해당 배열 내 모든 값을 일단 합한다. */
     for(int i=x; i<len; i++){
@@ -34,13 +38,14 @@ void func(int x, int y, int len){
         else num = 1;
         stk.pop();
         stk.push(to_string(num));
-        stk.push(")");
         return;
     }else{ /* 그렇지 않으면 다음 회차 나누기를 실행 */
+        stk.push("("); /* 4등분으로 나눠질때만 괄호 넣기 */
         func(x,y,len/2);
         func(x+len/2,y,len/2);
         func(x,y+len/2,len/2);
         func(x+len/2,y+len/2,len/2);
+        stk.push(")");
     }
 }
 
