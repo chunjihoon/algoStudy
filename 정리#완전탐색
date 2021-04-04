@@ -2,9 +2,56 @@
 # 완전탐색
 
 ## 관련내용 참고블로그
+
   - 코딩테스트 준비할 때 필수 개념! <완전탐색> 알아보기
     : https://buyandpray.tistory.com/52: 
   - [C++] next_permutation으로 STL Combination 함수 작성하기
     : https://whiteherv.tistory.com/2
   - [C++] next_permutation()을 활용한 조합 생성
     : https://it-earth.tistory.com/61
+  - [c++] 배열 및 (STL) vector 초기화 방법 정리
+    : https://hini7.tistory.com/66
+
+## 블랙잭: https://www.acmicpc.net/problem/2798
+
+#include<iostream>
+#include<vector>
+#include<algorithm>
+using namespace std;
+
+int crdCnt;
+int limNum;
+int card[100]; // 카드의 개수 N(3 ≤ N ≤ 100)
+int maxSum=0;
+int sum=0;
+
+int main(){
+
+    cin >> crdCnt >> limNum;
+
+    for(int i=0; i<crdCnt; i++){
+        cin >> card[i];
+    }
+    
+    /* vector를 사용한 조합 구현 */
+	vector<int> vt(crdCnt-3, 0); // {0, ...}
+	for(int i = 0; i<3; i++){
+        vt.emplace_back(1);  // {0,0,1,1,1}
+    }
+	do {
+		for(int i = 0; i < crdCnt; i++) {
+			if(vt[i] == 1){
+                sum+=card[i]; // 선택된 3장의 카드 합하기
+            }
+		}
+        /* 합이 주어진 수 이하이고, 현재까지의 최댓값이면 */
+        if(maxSum<sum){
+            if(sum<=limNum) maxSum = sum;
+        }
+        sum = 0; /* 초기화 */
+		
+	} while(next_permutation(vt.begin(), vt.end()));
+	
+    cout<<maxSum;
+	return 0;
+}
